@@ -173,6 +173,11 @@ $('sendBtn').addEventListener('click', async () => {
 
     $('heard').textContent = t;
     $('reply').textContent = data.reply;
+    
+const utterance = new SpeechSynthesisUtterance(data.reply);
+utterance.lang = lang === 'te' ? 'te-IN' : 'en-US';
+window.speechSynthesis.speak(utterance);
+
     $('status').textContent = 'AI connected';
   } catch (error) {
     $('reply').textContent = 'AI connection failed. Please try again.';
