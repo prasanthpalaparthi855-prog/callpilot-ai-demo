@@ -174,9 +174,18 @@ $('sendBtn').addEventListener('click', async () => {
     $('heard').textContent = t;
     $('reply').textContent = data.reply;
     
-const utterance = new SpeechSynthesisUtterance(data.reply);
-utterance.lang = lang === 'te' ? 'te-IN' : 'en-US';
-window.speechSynthesis.speak(utterance);
+
+if (data.audio) {
+  const audio = new Audio(
+    `data:${data.audioType || 'audio/mpeg'};base64,${data.audio}`
+  );
+  audio.play().catch(error => console.error('Audio playback error:', error));
+} else {
+  const utterance = new SpeechSynthesisUtterance(data.reply);
+  utterance.lang = lang === 'te' ? 'te-IN' : 'en-US';
+  window.speechSynthesis.speak(utterance);
+}
+
 
     $('status').textContent = 'AI connected';
   } catch (error) {
@@ -202,7 +211,7 @@ if (SpeechRecognition) {
 }
 $('contactForm').addEventListener('submit',e=>{
  e.preventDefault();
- const vals = {
+ const vals = {async function
   name:$('name').value.trim(), agency:$('agency').value.trim(), email:$('email').value.trim(),
   need:$('need').value, message:$('message').value.trim()
  };
